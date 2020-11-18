@@ -1,4 +1,12 @@
 class UsersController < ApplicationController
+
+  def create
+    auth_hash = request.env["omniauth.auth"]
+    raise
+
+    binding.pry
+  end
+
   def index
     @users = User.all
   end

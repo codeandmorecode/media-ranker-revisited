@@ -57,6 +57,7 @@ gem 'jquery-rails'
 gem 'jquery-turbolinks'
 gem 'bootstrap'
 group :development, :test do
+  gem 'dotenv-rails'
   gem 'pry-rails'
 end
 
@@ -70,7 +71,6 @@ end
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
-  gem 'dotenv-rails'
 end
 
 group :test do
