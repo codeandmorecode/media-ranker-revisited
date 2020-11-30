@@ -2,10 +2,17 @@ class UsersController < ApplicationController
 
   def create
     auth_hash = request.env["omniauth.auth"]
-    raise
 
-    binding.pry
+    user = User.find_by(uid: auth_hash[:uid], provider: params[:provider])
+
+    if user
+      flash[:notice] = "Existing user #{user.username} is logged in"
+    else
+    end
+    session[:user_id] = user.id
+    redirect_to root_path
   end
+
 
   def index
     @users = User.all
@@ -20,8 +27,12 @@ class UsersController < ApplicationController
   end
 
   def login
-    username = params[:username]
-    if username and user = User.find_by(username: username)
+    auth_hash = request.env["omniauth.auth"]
+    user = User.find_by(uid: auth_hash[:uid], provider: 'github')#params[:provider])
+    username = user.username
+    #username = params[:username]
+    # if username and user = User.find_by(username: username)
+    if username
       session[:user_id] = user.id
       flash[:status] = :success
       flash[:result_text] = "Successfully logged in as existing user #{user.username}"
