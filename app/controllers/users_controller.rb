@@ -8,6 +8,14 @@ class UsersController < ApplicationController
     if user
       flash[:notice] = "Existing user #{user.username} is logged in"
     else
+      user = User.build_from_github(auth_hash)
+      if user.save
+        flash[:success] = "Logged in as new user #{user.username}"
+      else
+        flash[:error] = "Could not create user account #{user.errors.messages}"
+      end
+
+    end
     end
     session[:user_id] = user.id
     redirect_to root_path
