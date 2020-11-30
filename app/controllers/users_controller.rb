@@ -6,13 +6,14 @@ class UsersController < ApplicationController
     user = User.find_by(uid: auth_hash[:uid], provider: params[:provider])
 
     if user
-      flash[:notice] = "Existing user #{user.username} is logged in"
+      flash[:notice] = "Logged in as returning user #{user.username}"
     else
       user = User.build_from_github(auth_hash)
       if user.save
-        flash[:success] = "Logged in as new user #{user.username}"
+        flash[:notice] = "Logged in as new user #{user.username}"
       else
-        flash[:error] = "Could not create user account #{user.errors.messages}"
+        #flash[:error] = "Could not create new user account #{user.errors.messages}"
+        flash[:error] =  ["Could not create new user account username: #{user.errors.messages[:username]}"]
       end
 
     end
@@ -61,9 +62,15 @@ class UsersController < ApplicationController
   # end
 
   def logout
-    session[:user_id] = nil
-    flash[:status] = :success
-    flash[:result_text] = "Successfully logged out"
-    redirect_to root_path
+      if session[:user_id]
+        session[:user_id] = nil
+        flash[:notice] = "Successfully logged out"
+        redirect_to root_path
+        return
+      else
+        flash[:warning] = "You were not logged in!"
+        redirect_to root_path
+      end
   end
+
 end
