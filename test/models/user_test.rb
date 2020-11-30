@@ -36,7 +36,7 @@ describe User do
       user2 = User.new(username: username)
       result = user2.save
       expect(result).must_equal false
-      expect(user2.errors.messages).must_include :username
+      expect(user2.errors.messages).must_include :uid
     end
   end
 end
