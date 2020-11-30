@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-
+  skip_before_action :require_login, except: [:current_user]
   def create
     auth_hash = request.env["omniauth.auth"]
 
