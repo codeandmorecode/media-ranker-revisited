@@ -1,6 +1,7 @@
 require "test_helper"
 
 describe UsersController do
+
   #Tests written for Oauth.
   describe "auth_callback" do
     it "logs in an existing user and redirects to the root path" do
