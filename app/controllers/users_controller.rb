@@ -16,7 +16,6 @@ class UsersController < ApplicationController
       end
 
     end
-    end
     session[:user_id] = user.id
     redirect_to root_path
   end
